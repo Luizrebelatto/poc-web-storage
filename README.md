@@ -1,29 +1,15 @@
-# poc-web-storage
+# POC Web Storage
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+## How to run Locally
+1. Clone repository
 ```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
+https://github.com/Luizrebelatto/poc-web-storage.git
 ```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
+2. Run `yarn install` and `npm install`
+3. Run `yarn dev` and `npm run dev`
+4. access this url `http://localhost:5173`
+5. Login
+```
+email: test@test.com
+password: 123456
 ```
