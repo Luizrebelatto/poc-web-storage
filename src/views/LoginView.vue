@@ -1,35 +1,57 @@
 <template>
-  <div class="login-container">
-    <div class="login-box">
-      <h1>Login</h1>
-      <form @submit.prevent="handleLogin" class="login-form">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            v-model="email"
+  <div class="page">
+    <div class="card">
+      <div class="storage-demo">
+        <h2>Web Storage Demo</h2>
+        <div class="storage-types">
+          <button 
+            v-for="type in storageTypes" 
+            :key="type.value"
+            :class="['storage-btn', { active: authStore.storageType === type.value }]"
+            @click="changeStorage(type.value)"
+          >
+            {{ type.label }}
+          </button>
+        </div>
+        <div class="storage-info">
+          <p>{{ getStorageDescription() }}</p>
+        </div>
+      </div>
+
+      <div class="login-form">
+        <h1>Login</h1>
+        <div class="input-group">
+          <input 
+            type="email" 
+            v-model="email" 
+            placeholder="Email"
             required
-            placeholder="Enter your email"
           />
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
+        <div class="input-group">
+          <input 
+            type="password" 
+            v-model="password" 
+            placeholder="Password"
             required
-            placeholder="Enter your password"
           />
         </div>
-        <div v-if="error" class="error-message">
+        <div v-if="error" class="error">
           {{ error }}
         </div>
-        <button type="submit" :disabled="isLoading">
+        <button 
+          class="login-btn" 
+          @click="handleLogin"
+          :disabled="isLoading"
+        >
           {{ isLoading ? 'Logging in...' : 'Login' }}
         </button>
-      </form>
+        <div class="demo-credentials">
+          <p>Demo credentials:</p>
+          <p>Email: demo@example.com</p>
+          <p>Password: password</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -47,6 +69,29 @@ const password = ref('')
 const error = ref('')
 const isLoading = ref(false)
 
+const storageTypes = [
+  { label: 'LocalStorage', value: 'localStorage' },
+  { label: 'SessionStorage', value: 'sessionStorage' },
+  { label: 'IndexedDB', value: 'indexedDB' }
+]
+
+function changeStorage(type) {
+  authStore.setStorageType(type)
+}
+
+function getStorageDescription() {
+  switch (authStore.storageType) {
+    case 'localStorage':
+      return 'Data persists even after browser is closed'
+    case 'sessionStorage':
+      return 'Data is cleared when browser tab is closed'
+    case 'indexedDB':
+      return 'Large structured data storage'
+    default:
+      return ''
+  }
+}
+
 async function handleLogin() {
   try {
     error.value = ''
@@ -62,45 +107,97 @@ async function handleLogin() {
 </script>
 
 <style scoped>
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.page {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f2f5;
+  padding: 20px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
 }
 
-.login-box {
+.card {
   background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
+  overflow: hidden;
+  margin: auto;
+}
+
+.storage-demo {
+  background: #f8f9fa;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.storage-demo h2 {
+  margin: 0 0 16px;
+  font-size: 1.2rem;
+  color: #1a1a1a;
+}
+
+.storage-types {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.storage-btn {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.storage-btn.active {
+  background: #4a90e2;
+  color: white;
+  border-color: #4a90e2;
+}
+
+.storage-info {
+  font-size: 0.9rem;
+  color: #666;
+  padding: 8px;
+  background: white;
+  border-radius: 6px;
 }
 
 .login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  padding: 24px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.login-form h1 {
+  margin: 0 0 24px;
+  font-size: 1.5rem;
+  color: #1a1a1a;
 }
 
-label {
-  font-weight: 500;
-  color: #333;
+.input-group {
+  margin-bottom: 16px;
 }
 
 input {
-  padding: 0.75rem;
+  width: 100%;
+  padding: 12px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 1rem;
+  transition: border-color 0.2s;
 }
 
 input:focus {
@@ -108,29 +205,52 @@ input:focus {
   border-color: #4a90e2;
 }
 
-button {
-  background-color: #4a90e2;
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background: #4a90e2;
   color: white;
-  padding: 0.75rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
-button:hover {
-  background-color: #357abd;
+.login-btn:hover {
+  background: #357abd;
 }
 
-button:disabled {
-  background-color: #ccc;
+.login-btn:disabled {
+  background: #ccc;
   cursor: not-allowed;
 }
 
-.error-message {
+.error {
   color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  margin: 8px 0 16px;
+  padding: 8px;
+  background: #fff5f5;
+  border-radius: 4px;
+}
+
+.demo-credentials {
+  margin-top: 24px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.demo-credentials p {
+  margin: 4px 0;
+}
+
+.demo-credentials p:first-child {
+  color: #1a1a1a;
+  font-weight: 500;
+  margin-bottom: 8px;
 }
 </style> 
