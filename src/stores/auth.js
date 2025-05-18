@@ -133,17 +133,16 @@ export const useAuthStore = defineStore('auth', () => {
     
     if (storedToken) {
       token.value = storedToken
-      user.value = { email: 'demo@example.com', name: 'Demo User' }
+      user.value = { email: 'test@test.com', name: 'Test User' }
     }
   }
 
   async function login(email, password) {
     try {
-      // In a real application, this would be an API call
-      if (email === 'demo@example.com' && password === 'password') {
+      if (email === 'test@test.com' && password === '123456') {
         const mockToken = 'mock-jwt-token'
         await setToken(mockToken)
-        user.value = { email, name: 'Demo User' }
+        user.value = { email, name: 'Test User' }
         return true
       }
       throw new Error('Invalid credentials')

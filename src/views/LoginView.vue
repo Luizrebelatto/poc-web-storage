@@ -1,23 +1,6 @@
 <template>
   <div class="page">
     <div class="card">
-      <div class="storage-demo">
-        <h2>Web Storage Demo</h2>
-        <div class="storage-types">
-          <button 
-            v-for="type in storageTypes" 
-            :key="type.value"
-            :class="['storage-btn', { active: authStore.storageType === type.value }]"
-            @click="changeStorage(type.value)"
-          >
-            {{ type.label }}
-          </button>
-        </div>
-        <div class="storage-info">
-          <p>{{ getStorageDescription() }}</p>
-        </div>
-      </div>
-
       <div class="login-form">
         <h1>Login</h1>
         <div class="input-group">
@@ -46,11 +29,6 @@
         >
           {{ isLoading ? 'Logging in...' : 'Login' }}
         </button>
-        <div class="demo-credentials">
-          <p>Demo credentials:</p>
-          <p>Email: demo@example.com</p>
-          <p>Password: password</p>
-        </div>
       </div>
     </div>
   </div>
