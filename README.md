@@ -29,18 +29,31 @@ password: 123456
 
 
 ### Cookies
+- Browser can create, edit, update cookies
+- cookies last until the browser is closed
+- limited size (~4 KB por cookie)
+- string (key=value)
+- Use Cases
+  - user preferences
+  - login
+- create
 ```
-document.cookie = "usuario=Joao; expires=Fri, 31 Dec 2025 23:59:59 GMT; path=/";
+Set-Cookie: <cookie-name>=<cookie-value>
 
-let cookie = document.cookie
-console.log(document.cookie);
+example:
 
-// update
-document.cookie = "usuario=Maria; path=/";
+create a cookie with an expiration date
 
-// clear
-document.cookie = "usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+Set-Cookie: id=a3fWa; Expires=Thu, 31 Oct 2021 07:28:00 GMT;
 
+```
+- update cookie
+```
+document.cookie = "yummy_cookie=chocolate";
+```
+- Enable security
+```
+Set-Cookie: id=a3fWa; Expires=Thu, 21 Oct 2021 07:28:00 GMT; Secure; HttpOnly
 ```
 
 ### sessionStorage
@@ -77,32 +90,30 @@ localStorage.clear();
 ```
 
 ### IndexedDB
+- application can work offline and online
 ```
-// Abrir/criar banco chamado "meuBanco" versão 1
-let request = indexedDB.open("meuBanco", 1);
+// open database
+const request = window.indexedDB.open("MyTestDatabase", 3);
 
-request.onupgradeneeded = function(event) {
-    let db = event.target.result;
-    // Criar um object store chamado "usuarios" com chave "id"
-    db.createObjectStore("usuarios", { keyPath: "id" });
+const customerData = [
+  { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
+  { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" },
+]
+
+request.onupgradeneeded = (event) => {
+  // Save the IDBDatabase interface
+  const db = event.target.result;
+
+  // Create an object
+  const objectStore = db.createObjectStore("name", { keyPath: "myKey" });
 };
 
-request.onsuccess = function(event) {
-    let db = event.target.result;
-
-    let transaction = db.transaction("usuarios", "readwrite");
-    let store = transaction.objectStore("usuarios");
-
-    store.add({ id: 1, nome: "João", idade: 30 });
-
-    let getRequest = store.get(1);
-    getRequest.onsuccess = function() {
-        console.log(getRequest.result);  // {id: 1, nome: "João", idade: 30}
-    };
+request.onerror = (event) => {
+  console.error("Why didn't you allow my web app to use IndexedDB?!");
 };
 
-request.onerror = function(event) {
-    console.error("Erro ao abrir o banco:", event.target.error);
+request.onsuccess = (event) => {
+  db = event.target.result;
 };
 
 ```
