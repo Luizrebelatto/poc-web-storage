@@ -57,18 +57,22 @@ Set-Cookie: id=a3fWa; Expires=Thu, 21 Oct 2021 07:28:00 GMT; Secure; HttpOnly
 ```
 
 ### sessionStorage
+- Limit size ~5–10 MB
+- Only on the current tab
+- When the tab is closed the data is deleted
+- Format type string
+- Use Cases
+ - temporary data
+ - filter
+ - multi-form
 ```
-// storage data
 sessionStorage.setItem("nome", "João");
 
-// Read data
 let nome = sessionStorage.getItem("nome");
 console.log(nome);
 
-// Remove item
 sessionStorage.removeItem("nome");
 
-// Clear all
 sessionStorage.clear();
 ```
 
