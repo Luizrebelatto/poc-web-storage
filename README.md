@@ -14,20 +14,6 @@ email: test@test.com
 password: 123456
 ```
 
-## Concepts
-| Característica            | Cookies                     | sessionStorage              | localStorage                | IndexedDB                    |
-|---------------------------|------------------------------|------------------------------|------------------------------|-------------------------------|
-| **Persistência**          | Configurável (expira ou sessão) | Apenas durante a aba        | Persistente até ser apagado | Persistente até ser apagado  |
-| **Tamanho máximo**        | ~4 KB                        | ~5–10 MB                    | ~5–10 MB                    | 100MB+ (varia por navegador) |
-| **Compartilhamento**      | Entre abas e com o servidor  | Apenas na aba atual         | Compartilhado entre abas    | Compartilhado entre abas     |
-| **Disponível no servidor**| ✅ Sim (via HTTP)            | ❌ Não                       | ❌ Não                       | ❌ Não                        |
-| **Acesso por JavaScript** | ✅ Sim                       | ✅ Sim                       | ✅ Sim                       | ✅ Sim (via API assíncrona)   |
-| **Reatividade**           | ❌ Não                       | ❌ Não                       | ❌ Não                       | ❌ Não                        |
-| **Formato de dados**      | String (chave=valor)         | String                      | String                      | Objetos estruturados (JSON)  |
-| **Facilidade de uso**     | Média (manual e limitada)    | Fácil                       | Fácil                       | Mais complexa (event-driven) |
-| **Uso típico**            | Sessões, login, preferências | Dados temporários por aba   | Preferências persistentes   | Cache, dados offline, blobs  |
-
-
 ### Cookies
 - Browser can create, edit, update cookies
 - cookies last until the browser is closed
@@ -104,6 +90,9 @@ localStorage.clear();
 
 ### IndexedDB
 - application can work offline and online
+- 100MB+
+- format JSON
+- 
 ```
 // open database
 const request = window.indexedDB.open("MyTestDatabase", 3);
