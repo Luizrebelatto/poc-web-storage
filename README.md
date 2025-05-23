@@ -77,18 +77,27 @@ sessionStorage.clear();
 ```
 
 ### localStorage
+- Limit size ~5–10 MB
+- persists until it is deleted
+- share between tabs
+- Use Cases
+ - temporary data
+ - filter
+ - multi-form
 ```
-// Armazenar dados
-localStorage.setItem("tema", "escuro");
+// create
+const usuario = { id: 1, nome: "luiz", idade: 24 };
+localStorage.setItem("user", JSON.stringify(user));
 
-// Ler dados
-let tema = localStorage.getItem("tema");
-console.log(tema);  // escuro
+// edit
+let user = JSON.parse(localStorage.getItem("user"));
+user.age = 25;
+localStorage.setItem("user", JSON.stringify(user));
 
-// Remover item
-localStorage.removeItem("tema");
+// Remove
+localStorage.removeItem("user");
 
-// Limpar tudo
+// Clean
 localStorage.clear();
 
 ```
